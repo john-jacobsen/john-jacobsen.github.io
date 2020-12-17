@@ -1,0 +1,152 @@
+/* stylesheet for final project */
+
+@font-face {
+    src: url(Helvetica-Font.zip/Helvetica.ttf);
+    font-family:helvetica;
+}
+
+{*
+    padding:0;
+    margin:0;
+}
+
+body  {
+    font-family:helvetica, arial, sans-serif;
+    color:black;
+}
+
+header {
+    height:180px;
+}
+
+img#logo {
+    height:140px;
+    margin:20px;
+}
+
+nav {
+    height: 100px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-decoration-color: black;
+    outline-style: solid 1px black;
+}
+
+main {
+    width:100%;
+    max-width:800px;
+    margin-left: 50px;
+}
+
+.form-style-1 {
+	margin:10px auto;
+	max-width: 400px;
+	padding: 20px 12px 10px 20px;
+	font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+.form-style-1 li {
+	padding: 0;
+	display: block;
+	list-style: none;
+	margin: 10px 0 0 0;
+}
+.form-style-1 label{
+	margin:0 0 3px 0;
+	padding:0px;
+	display:block;
+	font-weight: bold;
+}
+
+.form-style-1 {
+	width: 49%;
+}
+
+.form-style-1 {
+	width: 100%;
+}
+.form-style-1 {
+	width: 100%;
+}
+.form-style-1 .field-textarea{
+	height: 100px;
+}
+.form-style-1 input[type=submit], .form-style-1 input[type=button]{
+	background: gray;
+	padding: 8px 15px 8px 15px;
+	border: none;
+	color: #fff;
+}
+
+div.box {
+    width:25%;
+    max-width: 200px;
+    border: solid 1px black;
+}
+
+div#wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows:;
+}
+
+footer {
+    height:100px;
+    width:100%;
+    max-width: 800px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+input {
+    width : 300px;
+    height: 30px;
+}
+
+textarea {
+     width : 300px;
+    height: 70px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul#navigation {
+    float:left;
+    clear:both;
+}
+
+ul#foot {
+    float:left;
+    clear:both;
+}
+
+li {
+    display: inline;
+    padding-right: 15px;
+}
+
+h1 {
+size:2em;
+font-family: Georgia, "Times New Roman", Times, serif;	
+}
+
+p {
+line-height:1.4em;
+padding-bottom:1em;	
+}
+
+a:link {
+    text-decoration: none; 
+    color: black;
+}
+
+a:hover {
+    text-decoration: overline;
+}
+
+a:visited {
+    color: black;
+}

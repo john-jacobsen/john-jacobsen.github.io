@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John Jacobsen</title>
+  <style>
+    :root {
+      --bg: #F9F7F2;
+      --text: #1A1A18;
+      --text-muted: #7A7770;
+      --accent: #7C5C3A;
+      --border: #DDD9D0;
+      --nav-width: 220px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    .wrapper { display: flex; min-height: 100vh; }
+
+    /* ─── NAV ─── */
+    nav {
+      width: var(--nav-width);
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      background: var(--bg);
+      z-index: 100;
+    }
+
+    .nav-name {
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      margin-bottom: 2.5rem;
+    }
+
+
+    nav ul { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+
+    nav a {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.4rem 0 0.4rem 0.75rem;
+      border-left: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    nav a:hover, nav a.active { color: var(--text); border-left-color: var(--accent); }
+
+    .nav-footer {
+      font-size: 0.63rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 2;
+    }
+
+    .nav-footer a { color: var(--text-muted); text-decoration: none; display: block; transition: color 0.2s; }
+    .nav-footer a:hover { color: var(--accent); }
+
+    /* ─── MAIN ─── */
+    main {
+      margin-left: var(--nav-width);
+      max-width: 760px;
+      padding: 5rem 4rem 8rem;
+      width: 100%;
+    }
+
+    section { margin-bottom: 5.5rem; }
+
+    .section-label {
+      font-size: 0.63rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ─── ABOUT ─── */
+    #about .name {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 200;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.75rem;
+    }
+
+    #about .bio {
+      font-size: 0.93rem;
+      max-width: 560px;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+
+    .tag {
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.65rem;
+      border-radius: 2px;
+    }
+
+    /* ─── CV ─── */
+    .cv-block {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 0.3rem 1.5rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cv-block:last-of-type { border-bottom: none; margin-bottom: 0; }
+
+    .cv-year { font-size: 0.68rem; font-weight: 400; color: var(--text-muted); padding-top: 0.15rem; }
+
+    .cv-title { font-size: 0.93rem; font-weight: 500; line-height: 1.35; }
+
+    .cv-sub { grid-column: 2; font-size: 0.82rem; color: var(--text-muted); line-height: 1.75; font-weight: 300; }
+    .cv-sub em { font-style: italic; }
+    .cv-sub ul { margin-top: 0.6rem; padding-left: 1.1rem; }
+    .cv-sub ul li { margin-bottom: 0.3rem; }
+
+    .cv-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 0.1rem;
+      margin-top: 1.75rem;
+      transition: opacity 0.2s;
+    }
+
+    .cv-download:hover { opacity: 0.65; }
+
+    /* ─── RESEARCH ─── */
+    .pub-item { padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+    .pub-item:first-child { padding-top: 0; }
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-status {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.45rem;
+    }
+
+    .pub-title { font-size: 0.93rem; font-weight: 400; line-height: 1.5; margin-bottom: 0.4rem; }
+
+    .pub-meta { font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
+    .pub-meta em { font-style: italic; }
+
+    .pub-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .pub-link:hover { border-bottom-color: var(--accent); }
+
+    /* ─── PROJECTS ─── */
+    .project-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 1rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-card:first-child { padding-top: 0; }
+    .project-card:last-child { border-bottom: none; }
+
+    .project-name { font-size: 0.93rem; font-weight: 500; margin-bottom: 0.35rem; }
+
+    .project-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.75; max-width: 480px; font-weight: 300; }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.65rem; }
+
+    .project-tag {
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--border);
+      padding: 0.18rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    .project-arrow { font-size: 1rem; color: var(--border); transition: color 0.2s; padding-top: 0.1rem; }
+    a:hover .project-arrow { color: var(--accent); }
+    .project-link { text-decoration: none; color: inherit; display: contents; }
+
+    /* ─── WRITING ─── */
+    .writing-intro {
+      font-size: 0.92rem;
+      margin-bottom: 1.75rem;
+      max-width: 520px;
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .writing-link-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, background 0.2s;
+      border-radius: 2px;
+    }
+
+    .writing-link-card:hover { border-color: var(--accent); background: rgba(124, 92, 58, 0.03); }
+
+    .writing-link-card .icon { font-size: 0.9rem; opacity: 0.4; }
+
+    .writing-card-title { font-size: 0.93rem; font-weight: 500; }
+
+    .writing-card-sub { font-size: 0.67rem; font-weight: 300; color: var(--text-muted); margin-top: 0.2rem; }
+
+    /* ─── CONTACT ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      background: var(--bg);
+      transition: background 0.2s;
+      border-right: 1px solid var(--border);
+    }
+
+    .contact-item:last-child { border-right: none; }
+    .contact-item:hover { background: rgba(124, 92, 58, 0.04); }
+
+    .contact-label {
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-value { font-size: 0.8rem; color: var(--text-muted); font-weight: 300; word-break: break-all; }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      nav {
+        position: relative; width: 100%; height: auto;
+        flex-direction: row; align-items: center;
+        padding: 1.25rem 1.5rem;
+        border-right: none; border-bottom: 1px solid var(--border);
+      }
+
+      .nav-name { margin-bottom: 0; }
+      nav ul { flex-direction: row; flex-wrap: wrap; }
+
+      nav a {
+        border-left: none; border-bottom: 2px solid transparent;
+        padding: 0.3rem 0.45rem; font-size: 0.58rem;
+      }
+
+      nav a:hover, nav a.active { border-left-color: transparent; border-bottom-color: var(--accent); }
+
+      .nav-footer { display: none; }
+      .wrapper { flex-direction: column; }
+      main { margin-left: 0; padding: 2.5rem 1.5rem 5rem; }
+
+      .cv-block { grid-template-columns: 1fr; gap: 0.2rem; }
+      .cv-sub { grid-column: 1; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-arrow { display: none; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+      .contact-item { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <nav id="sidebar">
+    <div>
+      <div class="nav-name">
+        John Jacobsen
+      </div>
+      <ul>
+        <li><a href="#about" class="active">About</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="nav-footer">
+      <a href="/cdn-cgi/l/email-protection#6f05050e0c000d1c0a012f0d0a1d040a030a16410a0b1a"><span class="__cf_email__" data-cfemail="ec86868d8f838e9f8982ac8e899e8789808995c2898899">[email&#160;protected]</span></a>
+      <a href="https://github.com/john-jacobsen" target="_blank">github</a>
+      <a href="https://substack.com/@johnejacobsen" target="_blank">methods · substack</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="name">John Jacobsen</div>
+      <p class="bio">
+        Researcher at the California Pacific Medical Center Research Institute and UC Berkeley Statistics graduate. I work at the intersection of biostatistics, causal inference, and health equity — with particular interest in aging, environmental epidemiology, and the politics of who gets counted in data.
+      </p>
+      <p class="bio">
+        Before statistics, I spent nearly a decade as a welder and shipfitter, and have been involved in labor and tenant organizing for most of my adult life. That background shapes how I think about research questions.
+      </p>
+      <div class="tag-row">
+        <span class="tag">Causal Inference</span>
+        <span class="tag">Biostatistics</span>
+        <span class="tag">Environmental Epidemiology</span>
+        <span class="tag">Health Equity</span>
+        <span class="tag">Aging</span>
+        <span class="tag">Labor Economics</span>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <div class="section-label">CV</div>
+
+      <div class="cv-block">
+        <div class="cv-year">2023 –<br>present</div>
+        <div class="cv-title">Research Intern</div>
+        <div class="cv-sub">California Pacific Medical Center Research Institute · San Francisco, CA
+          <ul>
+            <li>Cleaned and prepared large quantitative patient datasets from clinical cohort studies, implementing quality control procedures to ensure data integrity and protocol adherence.</li>
+            <li>Drafted analysis plans for observational health studies; performed statistical tests appropriate to data structures.</li>
+            <li>Developed R and Python code for data processing, analysis pipelines, and quality control.</li>
+            <li>Generated tables, figures, and statistical summaries for manuscripts.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <div class="cv-year">2022 –<br>2024</div>
+        <div class="cv-title">Undergraduate Research Assistant</div>
+        <div class="cv-sub">University of California, Berkeley School of Public Health · Berkeley, CA
+          <ul>
+            <li>Conducted statistical analysis of air pollution exposure and health outcomes for environmental epidemiology studies.</li>
+            <li>Developed and debugged R scripts for data cleaning, variable construction, and statistical modeling.</li>
+            <li>Contributed to manuscript preparation, including literature synthesis and editing for peer-reviewed publications.</li>
+            <li>Co-author on two published papers in <em>Environment International</em>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <div class="cv-year">2021 –<br>2022</div>
+        <div class="cv-title">Undergraduate Research Assistant</div>
+        <div class="cv-sub">Purdue University
+          <ul>
+            <li>Analyzed national survey data on electric vehicle adoption.</li>
+            <li>Drafted analysis plans and performed statistical tests.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <div class="cv-year">2025</div>
+        <div class="cv-title">B.A., Statistics</div>
+        <div class="cv-sub">University of California, Berkeley<br>
+          Relevant coursework: Probability (Stat 134), Mathematical Statistics (Stat 135), Causal Inference (Stat 156), Linear Regression (Stat 151A), Reproducible Data Science (Stat 159/259).
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <div class="cv-year">~10 years</div>
+        <div class="cv-title">Welder / Shipfitter</div>
+        <div class="cv-sub">Shipyards and architectural metalwork, Pacific Northwest.</div>
+      </div>
+
+      <a href="#" class="cv-download">↓ Download full CV (PDF)</a>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <div class="section-label">Research &amp; Publications</div>
+
+      <div class="pub-item">
+        <div class="pub-status">Published — co-author</div>
+        <div class="pub-title">Development of over 30 years of high spatiotemporal resolution air pollution models and surfaces for California</div>
+        <div class="pub-meta">Su, J.G., Jacobsen, J., et al. · <em>Environment International</em>, 2025</div>
+        <a href="https://doi.org/10.1016/j.envint.2024.109168" target="_blank" class="pub-link">→ doi.org/10.1016/j.envint.2024.109168</a>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-status">Published — co-author</div>
+        <div class="pub-title">Impacts of port and locomotive-related air pollution on respiratory symptoms within vulnerable communities in Southern California</div>
+        <div class="pub-meta">Su, J.G., Jacobsen, J., et al. · <em>Environment International</em>, 2025</div>
+        <a href="https://doi.org/10.1016/j.envint.2025.109369" target="_blank" class="pub-link">→ doi.org/10.1016/j.envint.2025.109369</a>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-status">In preparation — first author</div>
+        <div class="pub-title">Associations of air pollution with new diagnosis of Type 2 diabetes and diabetes medication use</div>
+        <div class="pub-meta">Jacobsen, J., Su, J.G., et al. · Manuscript in preparation.</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-status">In preparation — first author</div>
+        <div class="pub-title">GDF15 associations with change in weight and body composition in older men</div>
+        <div class="pub-meta">Jacobsen, J., Evans, D., et al. · Manuscript in preparation.</div>
+      </div>
+
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-label">Projects</div>
+
+      <div class="project-card">
+        <a href="https://github.com/john-jacobsen/fisherapp" target="_blank" class="project-link">
+          <div>
+            <div class="project-name">Fisher App 3.0</div>
+            <div class="project-desc">Adaptive mathematics learning platform using Knowledge Space Theory and Bayesian Knowledge Tracing. Covers 176 nodes across six subjects — Foundations through Statistics — with ALEKS-style adaptive placement, OpenStax-inspired lesson content, and a problem generator for every node.</div>
+            <div class="project-tags">
+              <span class="project-tag">React / Vite</span>
+              <span class="project-tag">FastAPI</span>
+              <span class="project-tag">PostgreSQL</span>
+              <span class="project-tag">KST / BKT</span>
+              <span class="project-tag">SymPy</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- WRITING -->
+    <section id="writing">
+      <div class="section-label">Writing</div>
+      <p class="writing-intro">
+        You can find my writing on statistics, maths, and lowbrow epistemology at my newsletter, Methods.
+      </p>
+      <a href="https://substack.com/@johnejacobsen" target="_blank" class="writing-link-card">
+        <div class="icon">✦</div>
+        <div>
+          <div class="writing-card-title">Methods</div>
+          <div class="writing-card-sub">substack.com/@johnejacobsen</div>
+        </div>
+      </a>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-label">Contact</div>
+      <div class="contact-grid">
+        <a href="/cdn-cgi/l/email-protection#315b5b50525e5342545f715354435a545d54481f545544" class="contact-item">
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><span class="__cf_email__" data-cfemail="791313181a161b0a1c17391b1c0b121c151c00571c1d0c">[email&#160;protected]</span></div>
+        </a>
+        <a href="https://github.com/john-jacobsen" target="_blank" class="contact-item">
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">john-jacobsen</div>
+        </a>
+        <a href="https://substack.com/@johnejacobsen" target="_blank" class="contact-item">
+          <div class="contact-label">Substack</div>
+          <div class="contact-value">Methods</div>
+        </a>
+        <a href="https://www.linkedin.com/in/john-j-204981187/" target="_blank" class="contact-item">
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">john-j-204981187</div>
+        </a>
+        <a href="https://www.instagram.com/everyonesfault_/" target="_blank" class="contact-item">
+          <div class="contact-label">Instagram</div>
+          <div class="contact-value">everyonesfault_</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    e
